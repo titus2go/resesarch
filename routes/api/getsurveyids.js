@@ -20,18 +20,18 @@ connection.connect(function(err){
 /* GET home page. */
 router.post('/', function(req, res, next) {
     var surveyinfo = req.body;
-    var sqlstmt = "select sym.SymptomName, s.SymptomStatus from WeeklySymptomSurvey as wss right join Surveys as s on wss.SurveyID=s.SurveyID left join Symptoms as sym on s.SymptomID=sym.SymptomID where s.SurveyId=" + surveyinfo.surveyid + " and s.UserID=" + surveyinfo.userid + ";";
+    var sqlstmt = "select SurveyID from WeeklySymptomSurvey where UserID='" + surveyinfo.userid + "';";
     console.log(sqlstmt);
     var result = {};
     connection.query(sqlstmt, function(err, rows, fields) {
         if(!err){
             result.status = true;
-            result.message = "Successfully retrieve survey";
-            result.survey = rows;
+            result.message = "Successfully retrieve survey ids";
+            result.ids = rows;
             res.send(result); 
         } else {
             result.status = false;
-            result.message = "Failure to retreive row " + err;
+            result.message = "Failure to retreive surveyids " + err;
             res.send(result); 
         }
     });

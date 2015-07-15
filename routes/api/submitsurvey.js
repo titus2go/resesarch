@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mysql = require('mysql');
+var uuid = require('node-uuid');
 
 var connection = mysql.createConnection({
     host:'localhost',
@@ -20,8 +21,11 @@ connection.connect(function(err){
 /* GET home page. */
 router.post('/', function(req, res, next) {
     var surveyinfo = req.body;
-    var survey = JSON.parse(surveyinfo.survey);
-    var sqlstmt1 = "insert into WeeklySymptomSurvey (SurveyID, StartTime, EndTime, UserID) values (" + surveyinfo.surveyid + ", '" + surveyinfo.starttime + "', '" + surveyinfo.endtime + "', " + surveyinfo.userid + ");";
+    console.log(req.body);
+    var survey = surveyinfo.survey;
+    var surveyid = uuid.v4();
+    console.log(surveyid.toString())
+    var sqlstmt1 = "insert into WeeklySymptomSurvey (SurveyID, StartTime, EndTime, UserID) values ('" + surveyid + "', '" + surveyinfo.starttime + "', '" + surveyinfo.endtime + "', '" + surveyinfo.userid + "');";
     console.log(sqlstmt1);
     var result = {};
     connection.query(sqlstmt1, function(err, rows, fields) {
@@ -29,8 +33,8 @@ router.post('/', function(req, res, next) {
             var survey_array = [];
             for(var i = 0; i < survey.length; i++) {
                 var symptom = survey[i];
-                console.log("Symptom: " + symptom);
-                survey_array.push([surveyinfo.surveyid, surveyinfo.userid, symptom.symptom, symptom.status]);
+                console.log("Symptom: " + symptom.syptom + " Status: " + symptom.status);
+                survey_array.push([surveyid, surveyinfo.userid, symptom.symptom, symptom.status]);
             }
             var sqlstmt2 = "insert into Surveys (SurveyID, UserID, SymptomID, SymptomStatus) values ?";
             connection.query(sqlstmt2, [survey_array], function(err, rows, fields) {
