@@ -7,7 +7,7 @@ var session = require('./sessions.js');
 var connection = mysql.createConnection({
     host:'localhost',
     user:'root',
-    password: 'titus2go1986',
+    password: '1qaz!QAZ',
     database: 'research',
 });
 
