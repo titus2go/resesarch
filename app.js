@@ -13,6 +13,10 @@ var submitsurvey_api = require('./routes/api/submitsurvey');
 var getallsymptoms_api = require('./routes/api/getallsymptoms');
 var signup_api = require('./routes/api/signup');
 var getsurveyids_api = require('./routes/api/getsurveyids');
+var getquestions_api = require('./routes/api/getquestions');
+var getoptions_api = require('./routes/api/getoptions');
+var getactions_api = require('./routes/api/getactions');
+
 var app = express();
 
 // view engine setup
@@ -35,6 +39,9 @@ app.use('/api/submitsurvey', submitsurvey_api);
 app.use('/api/getallsymptoms', getallsymptoms_api);
 app.use('/api/signup', signup_api);
 app.use('/api/getsurveyids', getsurveyids_api);
+app.use('/api/getquestions', getquestions_api);
+app.use('/api/getactions', getactions_api);
+app.use('/api/getoptions', getoptions_api);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

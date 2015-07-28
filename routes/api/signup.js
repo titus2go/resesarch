@@ -2,15 +2,14 @@ var express = require('express');
 var router = express.Router();
 var mysql = require('mysql');
 var shortid = require('shortid');
-var connection = require('./sqlserver.js');
+var database = require('./sqlserver.js');
 
-//var connection = mysql.createConnection({
-//    host:'localhost',
-//    user:'root',
-//    password: 'titus2go1986',
-//    database: 'research',
-//});
-
+var connection = mysql.createConnection({
+    host: database.hostname(),
+    user: database.username(),
+    password: database.password(),
+    database: database.dbname(),
+});
 
 connection.connect(function(err){
     if(!err) {

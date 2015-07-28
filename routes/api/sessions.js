@@ -2,12 +2,13 @@ var express = require('express');
 var router = express.Router();
 var mysql = require('mysql');
 var uuid = require('uuid');
+var database = require('./sqlserver.js');
 
 var connection = mysql.createConnection({
-    host:'localhost',
-    user:'root',
-    password: '1qaz!QAZ',
-    database: 'research',
+    host: database.hostname(),
+    user: database.username(),
+    password: database.password(),
+    database: database.dbname(),
 });
 
 connection.connect(function(err){

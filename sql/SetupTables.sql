@@ -12,6 +12,13 @@ create table Symptoms
     PRIMARY KEY (SymptomID)
 );
 
+create table Options
+(
+	OptionID INTEGER,
+    OptionName VARCHAR(255),
+    primary key (OptionID)
+);
+
 
 drop table Actions;
 
@@ -45,17 +52,6 @@ create table SurveyWeeks
     PRIMARY KEY (UserID, StartDate, SurveyType)
 );
 
-drop table Surveys;
-
-create table Surveys
-(
-	SurveyID varchar(50),
-    UserID INTEGER,
-    SymptomID INTEGER not null,
-    SymptomStatus BOOLEAN not null,
-    PRIMARY KEY (SurveyID, UserID, SymptomID)
-);
-
 drop table Users;
 
 create table Users
@@ -75,6 +71,36 @@ create table Sessions
     LastLoginTime DATETIME,
     PRIMARY KEY(UserID)
 );
+
+drop table SurveyQuestionBridge;
+
+create table SurveyQuestionBridge
+(
+	SurveyID varchar(50),
+    QuestionID  varchar(50),
+    QuestionType varchar(50)
+);
+
+drop table Surveys;
+
+create table Surveys
+(
+	QuestionID varchar(50),
+    UserID varchar(25),
+    OptionID INTEGER not null,
+    OptionStatus BOOLEAN not null
+);
+
+drop table Questions;
+
+create table Questions
+(
+	QuestionType integer,
+    QuestionText varchar(200)
+);
+
+
+
 
 
 

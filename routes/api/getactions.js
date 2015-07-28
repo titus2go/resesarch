@@ -21,17 +21,18 @@ connection.connect(function(err){
 /* GET home page. */
 router.post('/', function(req, res, next) {
     var surveyinfo = req.body;
-    var sqlstmt = "select * from Symptoms;";
+    var sqlstmt = "select ActionID, ActionName from Actions;";
     console.log(sqlstmt);
     var result = {};
     connection.query(sqlstmt, function(err, rows, fields) {
         if(!err){
             result.status = true;
-            result.message = "Successfully retrieve symptoms";
-            res.send(JSON.stringify(rows)); 
+            result.message = "Successfully retrieve actions";
+            result.actions = rows;
+            res.send(result); 
         } else {
             result.status = false;
-            result.message = "Failure to retreive row " + err;
+            result.message = "Failure to retreive actions " + err;
             res.send(result); 
         }
     });

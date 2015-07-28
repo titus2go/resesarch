@@ -2,12 +2,13 @@ var express = require('express');
 var router = express.Router();
 var mysql = require('mysql');
 var session = require('./sessions.js');
+var database = require('./sqlserver.js');
 
 var connection = mysql.createConnection({
-    host:'localhost',
-    user:'root',
-    password: '1qaz!QAZ',
-    database: 'research',
+    host: database.hostname(),
+    user: database.username(),
+    password: database.password(),
+    database: database.dbname(),
 });
 
 connection.connect(function(err){
@@ -22,7 +23,7 @@ connection.connect(function(err){
 router.post('/', function(req, res, next) {
     var surveyinfo = req.body;
     session.verify(surveyinfo.sessionid, function(userid){
-        var sqlstmt = "select SurveyID from WeeklySymptomSurvey where UserID='" + userid + "';";
+        var sqlstmt = "select SurveyID, StartTime, EndTime from WeeklySymptomSurvey where UserID='" + userid + "';";
         console.log(sqlstmt);
         var result = {};
         connection.query(sqlstmt, function(err, rows, fields) {
